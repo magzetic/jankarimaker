@@ -184,7 +184,7 @@ function generatePDF(sheetTitle) {
       };
 
       html2pdf().set(opt).from(element).save();
-  }, 500); // Give time to render before capturing
+  }, 1000); // Give time to render before capturing
 }
 
 
