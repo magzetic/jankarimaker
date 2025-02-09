@@ -1,79 +1,109 @@
 /* Basic Reset */
 * {
-    box-sizing: border-box;
-  }
   
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-  }
+  margin: 0;
+  padding: 0;
+}
+
+/* General Page Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+/* Main Container */
+.container {
   
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1, h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Forms */
+form {
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+form input[type="text"],
+form input[type="number"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+/* Buttons container */
+#buttonsDiv {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+#buttonsDiv button {
+  width: 48%;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+ 
+  background: white;
+}
+
+th, td {
+  border: 1px solid #000;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  #buttonsDiv {
+    flex-direction: column;
   }
-  
-  h1, h2 {
-    text-align: center;
-    color: #333;
-  }
-  
-  form {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background: #fafafa;
-  }
-  
-  form input[type="text"],
-  form input[type="number"] {
-    padding: 10px;
-    margin: 5px;
-    width: calc(100% - 22px);
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  button {
-    padding: 10px 15px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
-    display: block;
+
+  #buttonsDiv button {
     width: 100%;
-  }
-  
-  button:hover {
-    background-color: #218838;
-  }
-  
-  .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
     margin-bottom: 10px;
   }
-  
-  .form-row input {
-    flex: 1;
-    min-width: 120px;
-  }
-  
-  /* Spacing for dynamically generated sections */
-  #columnTitlesDiv,
-  #dataEntryDiv {
-    margin-top: 20px;
-  }
-  
+}

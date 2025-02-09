@@ -1,45 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Jankari Maker Pro</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <!-- Required Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+  <!-- html2pdf.js converts HTML content to PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>Jankari Maker Form</h1>
-    
+    <h1> नई सूची / जानकारी बनाऐं </h1>
+
     <!-- Configuration Form -->
     <form id="configForm">
-    <label for="sheetTitle">जानकारी का नाम जो कि शीट की हेडिंग होगी </label>
+      <label for="sheetTitle">जानकारी का नाम (शीट की हेडिंग)</label>
       <input type="text" id="sheetTitle" placeholder="Jankari Title" required />
-      <label for="numColumns">Column / कितने प्रकार की जानकारी चाहिए</label>
 
+      <label for="numColumns">Column / कितने प्रकार की जानकारी</label>
       <input type="number" id="numColumns" placeholder="Number of Columns" min="1" required />
-      <label for="numRows">Row / कितनी संख्‍या में चाहिए</label>
 
-      <input type="number" id="numRows"  placeholder="Number of Rows" min="1" required />
-      <button type="submit">Submit</button>
+      <label for="numRows">Row / कितनी संख्‍या में</label>
+      <input type="number" id="numRows" placeholder="Number of Rows" min="1" required />
+
+      <button type="submit">Next</button>
     </form>
-  
-    <!-- Placeholder for Column Titles Input -->
-    <div id="columnTitlesDiv"></div>
-  
-    <!-- Placeholder for Data Entry Form -->
-    <div id="dataEntryDiv"></div>
-    <hr>
-<br><br><br><br>
-    <h2>Excel को PDF में बदलें</h2>
-    <a href="https://www.ilovepdf.com/excel_to_pdf" target="_blank">
-      <button>Excel को PDF में बदलें</button>
-    </a>
-    
 
+    <!-- Column Titles Input -->
+    <div id="columnTitlesDiv"></div>
+     <h4> खाली जानकारी भरने के लिए "स्‍पेस" दर्ज करें</h4>
+     
+    <!-- Data Entry Form -->
+    <div id="dataEntryDiv"></div>
+
+    <!-- Table Preview (includes sheet title & table) -->
+    <div id="tablePreviewDiv">
+    
+    </div>
+
+    <!-- Action Buttons -->
+    <div id="buttonsDiv" style="display: none;">
+      <button id="generatePDF"> PDF बनाऐं</button>
+      <button id="generateExcel"> Excel बनाऐं</button>
+    </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
   
-  <!-- ExcelJS Library -->
-  <script src="https://unpkg.com/exceljs/dist/exceljs.min.js"></script>
-  <!-- Our Custom Script -->  
   <script src="script.js"></script>
 </body>
 </html>
