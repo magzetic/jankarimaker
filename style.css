@@ -129,3 +129,13 @@ th {
   min-width: 1px !important; /* Prevent collapse */
   box-sizing: border-box !important; /* Include border in width */
 }
+/* Style for the "क्रमांक" (Serial Number) column */
+td:first-child,
+th:first-child {
+  width: 1%;            /* Minimal width to shrink the column */
+  white-space: nowrap;  /* Prevent wrapping to keep it compact */
+  font-weight: bold;
+  background-color: #f0f8ff; /* Light blue shade */
+  color: #333;
+  text-align: center;
+}
