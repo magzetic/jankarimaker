@@ -77,24 +77,7 @@ button:hover {
   width: 48%;
 }
 
-/* Table Styles */
-table {
-  width: 100%;
-  border-collapse: collapse;
- 
-  background: white;
-}
 
-th, td {
-  border: 1px solid #000;
-  padding: 8px;
-  text-align: center;
-}
-
-th {
-  background-color: #007bff;
-  color: white;
-}
 
 /* Responsive Design */
 @media (max-width: 600px) {
