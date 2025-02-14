@@ -131,8 +131,14 @@ function generateTablePreview(sheetTitle, columnTitles, dataRows) {
   const table = document.createElement('table');
   table.border = '1';
 
-  // --- Add Header Row with Blank Column ---
+  // --- Add Header Row with "क्रमांक" Column ---
   const headerRow = document.createElement('tr');
+
+  // Add "क्रमांक" as the first column
+  const srNoTh = document.createElement('th');
+  srNoTh.textContent = 'क्रमांक';
+  headerRow.appendChild(srNoTh);
+
   columnTitles.forEach(title => {
     const th = document.createElement('th');
     th.textContent = title;
@@ -141,22 +147,29 @@ function generateTablePreview(sheetTitle, columnTitles, dataRows) {
 
   // Add blank column header (rightmost)
   const blankTh = document.createElement('th');
-  blankTh.className = 'blank-column'; // CSS class for styling
+  blankTh.className = 'blank-column';
   headerRow.appendChild(blankTh);
   table.appendChild(headerRow);
 
-  // --- Add Data Rows with Blank Column ---
-  dataRows.forEach(rowData => {
+  // --- Add Data Rows with Incremental "क्रमांक" Column ---
+  dataRows.forEach((rowData, index) => {
     const row = document.createElement('tr');
+
+    // Add Serial Number Column
+    const srNoTd = document.createElement('td');
+    srNoTd.textContent = index + 1; // Incremental Serial Number
+    row.appendChild(srNoTd);
+
+    // Add Data Columns
     rowData.forEach(cellData => {
       const td = document.createElement('td');
       td.textContent = cellData;
       row.appendChild(td);
     });
 
-    // Add blank column cell (rightmost)
+    // Add Blank Column (rightmost)
     const blankTd = document.createElement('td');
-    blankTd.className = 'blank-column'; // CSS class for styling
+    blankTd.className = 'blank-column';
     row.appendChild(blankTd);
     table.appendChild(row);
   });
@@ -164,9 +177,9 @@ function generateTablePreview(sheetTitle, columnTitles, dataRows) {
   tableDiv.appendChild(table);
   document.getElementById('buttonsDiv').style.display = 'flex';
 
-  // Update button event listeners (no changes to Excel/PDF logic)
+  // Update button event listeners
   document.getElementById('generatePDF').onclick = () => generatePDF(sheetTitle);
-  document.getElementById('generateExcel').onclick = () => generateExcel(sheetTitle, columnTitles, dataRows);
+  document.getElementById('generateExcel').onclick = () => generateExcel(sheetTitle, ['क्रमांक', ...columnTitles], dataRows);
 }
 
 function generatePDF(sheetTitle) {
