@@ -92,15 +92,28 @@ button:hover {
 }
 table {
   width: 100%;
-  border-collapse: collapse;  /* Ensures borders are merged */
-  cellspacing : 0 ;
-  margin: 10px; /* Adds margin around the table */
+  border-spacing: 0; /* Replace border-collapse: collapse; */
 }
 
 th, td {
-  border: 1px solid #000; /* Adds border to all sides (top, right, bottom, left) */
-  padding: 8px; /* Adds padding inside cells */
+  border: 1px solid #000; /* Add borders to all sides */
+  padding: 8px; /* Add padding inside cells */
   text-align: center;
+  box-sizing: border-box; /* Ensure borders are included in cell dimensions */
+}
+
+/* Remove double borders between cells */
+th + th,
+td + td,
+th + td,
+td + th {
+  border-left: none; /* Remove left border for adjacent cells */
+}
+
+/* Force the right border on the rightmost cells */
+th:last-child,
+td:last-child {
+  border-right: 1px solid #000 !important; /* Ensure the right border is visible */
 }
 
 th {
