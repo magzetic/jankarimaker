@@ -92,7 +92,8 @@ button:hover {
 }
 table {
   width: 100%;
-  border-collapse: collapse; /* Ensures borders are merged */
+  border-collapse: collapse;  /* Ensures borders are merged */
+ 
   margin: 10px; /* Adds margin around the table */
 }
 
