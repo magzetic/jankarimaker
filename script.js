@@ -186,35 +186,59 @@ function generatePDF(sheetTitle) {
   const element = document.getElementById('tablePreviewDiv');
 
   if (!element || element.innerHTML.trim() === "") {
-      alert("Error: No table found to generate PDF!");
-      return;
+    alert("Error: No table found to generate PDF!");
+    return;
   }
+
+  // Ensure the container has relative positioning for proper absolute positioning of the credit
+  const originalPosition = element.style.position;
+  if (!originalPosition || originalPosition === 'static') {
+    element.style.position = 'relative';
+  }
+
+  // Create the credit element
+  const creditDiv = document.createElement('div');
+  creditDiv.innerHTML = 'यह जानकारी <a href="https://jankarimaker.in" target="_blank">jankarimaker.in</a> की सहायता से बनाइ गइ है';
+  creditDiv.style.position = 'absolute';
+  creditDiv.style.bottom = '10px';
+  creditDiv.style.right = '10px';
+  creditDiv.style.fontSize = '10px';
+  creditDiv.style.color = '#333';
+  creditDiv.style.textAlign = 'right';
+
+  // Append the credit element so it gets captured in the PDF
+  element.appendChild(creditDiv);
 
   // Ensure the table is fully visible before capturing
-  element.style.display = "block"; // Make sure the table is visible
+  element.style.display = "block";
   const table = element.querySelector('table');
   if (table) {
-      table.style.display = "table"; // Explicitly set display for the table
+    table.style.display = "table";
   }
 
-  // Wait a short time before capturing to ensure rendering
+  // Wait briefly to allow rendering, then generate the PDF
   setTimeout(() => {
-      const opt = {
-          margin: [10, 10, 10, 10], // [top, left, bottom, right] margins in mm
-          filename: sheetTitle + '.pdf',
-          image: { type: 'jpeg', quality: 0.98 }, // Higher quality
-          html2canvas: {
-              scale: 2, // Keep scale at 2 or higher for better quality
-              useCORS: true, // Fixes cross-origin issues
-              scrollX: 0,
-              scrollY: 0,
-              logging: true, // Enable logging for debugging
-          },
-          jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' } // LANDSCAPE MODE
-      };
+    const opt = {
+      margin: [10, 10, 10, 10], // margins in mm
+      filename: sheetTitle + '.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollX: 0,
+        scrollY: 0,
+        logging: true,
+      },
+      jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' }
+    };
 
-      html2pdf().set(opt).from(element).save();
-  }, 1000); // Give time to render before capturing
+    html2pdf().set(opt).from(element).save().then(() => {
+      // Remove the credit element after generating the PDF
+      element.removeChild(creditDiv);
+      // Restore the original position (if needed)
+      element.style.position = originalPosition;
+    });
+  }, 1000); // Delay to ensure all rendering is complete
 }
 
 function generateExcel(sheetTitle, columnTitles, dataRows) {
