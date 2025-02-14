@@ -217,35 +217,45 @@ function generatePDF(sheetTitle) {
   }, 1000); // Give time to render before capturing
 }
 
-
 function generateExcel(sheetTitle, columnTitles, dataRows) {
   const workbook = new ExcelJS.Workbook();
   const sheet = workbook.addWorksheet('Sheet1');
 
-  // Add a top heading (merged across the columns)
+  // Add a top heading (merged across columns)
   const titleRow = sheet.addRow([sheetTitle]);
   titleRow.font = { size: 16, bold: true };
-  sheet.mergeCells(1, 1, 1, columnTitles.length);
+  // Merge across the serial column and the data columns
+  sheet.mergeCells(1, 1, 1, columnTitles.length + 1);
 
   // Optional: add an empty row for spacing
   sheet.addRow([]);
-  const headerRow = sheet.addRow(columnTitles);
+
+  // Define Excel headers with "क्रमांक" as the first column
+  const excelHeaders = ['क्रमांक', ...columnTitles];
+  const headerRow = sheet.addRow(excelHeaders);
   headerRow.font = { bold: true };
 
-  dataRows.forEach(rowData => {
-    sheet.addRow(rowData);
+  // Add data rows with incremental serial numbers in the first column
+  dataRows.forEach((rowData, index) => {
+    sheet.addRow([index + 1, ...rowData]);
   });
 
-  // Set dynamic column widths based on the maximum length of header and cell content.
-  const columnWidths = columnTitles.map((title, i) => {
-    let maxLength = title.toString().length;
-    dataRows.forEach(row => {
-      const cellValue = row[i] ? row[i].toString() : '';
-      if (cellValue.length > maxLength) {
-        maxLength = cellValue.length;
-      }
-    });
-    return { width: maxLength + 2 };
+  // Calculate dynamic widths:
+  // For the first (क्रमांक) column, we use a fixed small width.
+  // For other columns, we calculate based on the maximum content length.
+  const columnWidths = excelHeaders.map((title, colIndex) => {
+    if (colIndex === 0) {
+      return { width: 8 }; // Fixed width for the serial number column
+    } else {
+      let maxLength = title.toString().length;
+      dataRows.forEach(row => {
+        const cellValue = row[colIndex - 1] ? row[colIndex - 1].toString() : '';
+        if (cellValue.length > maxLength) {
+          maxLength = cellValue.length;
+        }
+      });
+      return { width: maxLength + 5 };
+    }
   });
   sheet.columns = columnWidths;
 
@@ -263,10 +273,13 @@ function generateExcel(sheetTitle, columnTitles, dataRows) {
   });
 
   workbook.xlsx.writeBuffer().then(buffer => {
-    const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-    const link = document.createElement("a");
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = `${sheetTitle}.xlsx`;
     link.click();
   });
 }
+
