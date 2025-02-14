@@ -206,7 +206,7 @@ function generatePDF(sheetTitle) {
   creditDiv.style.fontSize = '10px';
   creditDiv.style.color = '#333';
   creditDiv.style.textAlign = 'right';
-  creditDiv.style.marginTop = '40px'; // Adds space between the table and the credit
+  creditDiv.style.marginTop = '240px'; // Adds space between the table and the credit
   
   // Append the credit block after the table preview
   pdfContainer.appendChild(creditDiv);
