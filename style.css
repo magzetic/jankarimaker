@@ -120,3 +120,12 @@ th {
   background-color: #007bff;
   color: white;
 }
+/* Style for the blank column */
+.blank-column {
+  width: 1px !important; /* Force 1px width */
+  border-right: 1px solid #000 !important; /* Force right border */
+  padding: 0 !important; /* Remove padding */
+  margin: 0 !important; /* Remove margin */
+  min-width: 1px !important; /* Prevent collapse */
+  box-sizing: border-box !important; /* Include border in width */
+}
