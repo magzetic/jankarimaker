@@ -189,28 +189,26 @@ function generatePDF(sheetTitle) {
     return;
   }
   
-  // Clone the table preview to avoid modifying the live DOM
+  // Clone the table preview so the original page isn't modified
   const clonedElement = originalElement.cloneNode(true);
   
   // Create a container for the PDF content
   const pdfContainer = document.createElement('div');
-  pdfContainer.style.position = 'relative'; 
   pdfContainer.style.background = '#fff';
   pdfContainer.style.padding = '20px';
   
-  // Append the cloned table into the container
+  // Append the cloned table preview into the container
   pdfContainer.appendChild(clonedElement);
   
-  // Create the credit element
+  // Create the credit element that will appear below the table
   const creditDiv = document.createElement('div');
   creditDiv.innerHTML = 'यह जानकारी <a href="https://jankarimaker.in" target="_blank">jankarimaker.in</a> की सहायता से बनाइ गइ है';
   creditDiv.style.fontSize = '10px';
   creditDiv.style.color = '#333';
-  creditDiv.style.position = 'absolute';
-  creditDiv.style.right = '20px';  // Fixed to bottom-right corner
-  creditDiv.style.bottom = '20px'; // Fixed to bottom-right corner
+  creditDiv.style.textAlign = 'right';
+  creditDiv.style.marginTop = '240px'; // Adds space between the table and the credit
   
-  // Append the credit block into the container
+  // Append the credit block after the table preview
   pdfContainer.appendChild(creditDiv);
   
   // PDF generation options
@@ -228,7 +226,7 @@ function generatePDF(sheetTitle) {
     jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' }
   };
   
-  // Generate and download the PDF
+  // Generate and download the PDF from the container
   html2pdf().set(opt).from(pdfContainer).save();
 }
 
