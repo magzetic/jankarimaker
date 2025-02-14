@@ -183,62 +183,51 @@ function generateTablePreview(sheetTitle, columnTitles, dataRows) {
 }
 
 function generatePDF(sheetTitle) {
-  const element = document.getElementById('tablePreviewDiv');
-
-  if (!element || element.innerHTML.trim() === "") {
+  const originalElement = document.getElementById('tablePreviewDiv');
+  if (!originalElement || originalElement.innerHTML.trim() === "") {
     alert("Error: No table found to generate PDF!");
     return;
   }
-
-  // Ensure the container has relative positioning for proper absolute positioning of the credit
-  const originalPosition = element.style.position;
-  if (!originalPosition || originalPosition === 'static') {
-    element.style.position = 'relative';
-  }
-
-  // Create the credit element
+  
+  // Clone the table preview so the original page isn't modified
+  const clonedElement = originalElement.cloneNode(true);
+  
+  // Create a container for the PDF content
+  const pdfContainer = document.createElement('div');
+  pdfContainer.style.background = '#fff';
+  pdfContainer.style.padding = '20px';
+  
+  // Append the cloned table preview into the container
+  pdfContainer.appendChild(clonedElement);
+  
+  // Create the credit element that will appear below the table
   const creditDiv = document.createElement('div');
   creditDiv.innerHTML = 'यह जानकारी <a href="https://jankarimaker.in" target="_blank">jankarimaker.in</a> की सहायता से बनाइ गइ है';
-  creditDiv.style.position = 'absolute';
-  creditDiv.style.bottom = '10px';
-  creditDiv.style.right = '10px';
   creditDiv.style.fontSize = '10px';
   creditDiv.style.color = '#333';
   creditDiv.style.textAlign = 'right';
-
-  // Append the credit element so it gets captured in the PDF
-  element.appendChild(creditDiv);
-
-  // Ensure the table is fully visible before capturing
-  element.style.display = "block";
-  const table = element.querySelector('table');
-  if (table) {
-    table.style.display = "table";
-  }
-
-  // Wait briefly to allow rendering, then generate the PDF
-  setTimeout(() => {
-    const opt = {
-      margin: [10, 10, 10, 10], // margins in mm
-      filename: sheetTitle + '.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        scrollX: 0,
-        scrollY: 0,
-        logging: true,
-      },
-      jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' }
-    };
-
-    html2pdf().set(opt).from(element).save().then(() => {
-      // Remove the credit element after generating the PDF
-      element.removeChild(creditDiv);
-      // Restore the original position (if needed)
-      element.style.position = originalPosition;
-    });
-  }, 1000); // Delay to ensure all rendering is complete
+  creditDiv.style.marginTop = '40px'; // Adds space between the table and the credit
+  
+  // Append the credit block after the table preview
+  pdfContainer.appendChild(creditDiv);
+  
+  // PDF generation options
+  const opt = {
+    margin: [10, 10, 10, 10],
+    filename: sheetTitle + '.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      scrollX: 0,
+      scrollY: 0,
+      logging: true,
+    },
+    jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' }
+  };
+  
+  // Generate and download the PDF from the container
+  html2pdf().set(opt).from(pdfContainer).save();
 }
 
 function generateExcel(sheetTitle, columnTitles, dataRows) {
