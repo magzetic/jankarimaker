@@ -166,7 +166,11 @@ function generatePDF(sheetTitle) {
   }
 
   // Ensure the table is fully visible before capturing
-  element.style.display = "block";
+  element.style.display = "block"; // Make sure the table is visible
+  const table = element.querySelector('table');
+  if (table) {
+      table.style.display = "table"; // Explicitly set display for the table
+  }
 
   // Wait a short time before capturing to ensure rendering
   setTimeout(() => {
@@ -175,7 +179,7 @@ function generatePDF(sheetTitle) {
           filename: sheetTitle + '.pdf',
           image: { type: 'jpeg', quality: 0.98 }, // Higher quality
           html2canvas: {
-              scale: 3, // Increase scale for better rendering
+              scale: 2, // Keep scale at 2 or higher for better quality
               useCORS: true, // Fixes cross-origin issues
               scrollX: 0,
               scrollY: 0,
@@ -187,7 +191,6 @@ function generatePDF(sheetTitle) {
       html2pdf().set(opt).from(element).save();
   }, 1000); // Give time to render before capturing
 }
-
 
 
 function generateExcel(sheetTitle, columnTitles, dataRows) {
