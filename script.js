@@ -173,12 +173,13 @@ function generatePDF(sheetTitle) {
       const opt = {
           margin: [10, 10, 10, 10], // [top, left, bottom, right] margins in mm
           filename: sheetTitle + '.pdf',
-          image: { type: 'jpeg', quality: 0.80 },
+          image: { type: 'jpeg', quality: 0.98 }, // Higher quality
           html2canvas: {
-              scale: 2, // Higher scale for better quality
+              scale: 3, // Increase scale for better rendering
               useCORS: true, // Fixes cross-origin issues
               scrollX: 0,
-              scrollY: 0
+              scrollY: 0,
+              logging: true, // Enable logging for debugging
           },
           jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' } // LANDSCAPE MODE
       };
