@@ -131,14 +131,21 @@ function generateTablePreview(sheetTitle, columnTitles, dataRows) {
   const table = document.createElement('table');
   table.border = '1';
 
+  // --- Add Header Row with Blank Column ---
   const headerRow = document.createElement('tr');
   columnTitles.forEach(title => {
     const th = document.createElement('th');
     th.textContent = title;
     headerRow.appendChild(th);
   });
+
+  // Add blank column header (rightmost)
+  const blankTh = document.createElement('th');
+  blankTh.className = 'blank-column'; // CSS class for styling
+  headerRow.appendChild(blankTh);
   table.appendChild(headerRow);
 
+  // --- Add Data Rows with Blank Column ---
   dataRows.forEach(rowData => {
     const row = document.createElement('tr');
     rowData.forEach(cellData => {
@@ -146,13 +153,18 @@ function generateTablePreview(sheetTitle, columnTitles, dataRows) {
       td.textContent = cellData;
       row.appendChild(td);
     });
+
+    // Add blank column cell (rightmost)
+    const blankTd = document.createElement('td');
+    blankTd.className = 'blank-column'; // CSS class for styling
+    row.appendChild(blankTd);
     table.appendChild(row);
   });
 
   tableDiv.appendChild(table);
   document.getElementById('buttonsDiv').style.display = 'flex';
 
-  // Update button event listeners to use the new PDF conversion tool
+  // Update button event listeners (no changes to Excel/PDF logic)
   document.getElementById('generatePDF').onclick = () => generatePDF(sheetTitle);
   document.getElementById('generateExcel').onclick = () => generateExcel(sheetTitle, columnTitles, dataRows);
 }
