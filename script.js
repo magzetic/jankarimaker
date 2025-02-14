@@ -282,4 +282,73 @@ function generateExcel(sheetTitle, columnTitles, dataRows) {
     link.click();
   });
 }
+function generateExcel(sheetTitle, columnTitles, dataRows) {
+  // Make sure ExcelJS is already loaded from your CDN:
+  // <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+
+  const workbook = new ExcelJS.Workbook();
+  const sheet = workbook.addWorksheet('Sheet1');
+
+  // 1) Add a top heading (merged across the columns)
+  const titleRow = sheet.addRow([sheetTitle]);
+  titleRow.font = { size: 16, bold: true };
+  // Merge cells across "क्रमांक" + all data columns
+  sheet.mergeCells(1, 1, 1, columnTitles.length + 1);
+
+  // Optional: add an empty row for spacing
+  sheet.addRow([]);
+
+  // 2) Define headers (one "क्रमांक" + all column titles)
+  const excelHeaders = ['क्रमांक', ...columnTitles];
+  const headerRow = sheet.addRow(excelHeaders);
+  headerRow.font = { bold: true };
+
+  // 3) Add data rows, inserting serial numbers in the first column
+  dataRows.forEach((rowData, index) => {
+    sheet.addRow([index + 1, ...rowData]);
+  });
+
+  // 4) Set column widths: "क्रमांक" fixed, others dynamic
+  const columnDefs = excelHeaders.map((header, colIndex) => {
+    // First column => fixed width
+    if (colIndex === 0) {
+      return { width: 8 }; // Adjust as needed
+    } else {
+      // Calculate max length based on header + data
+      let maxLength = header.length;
+      dataRows.forEach(row => {
+        const cellValue = row[colIndex - 1] ? row[colIndex - 1].toString() : '';
+        if (cellValue.length > maxLength) {
+          maxLength = cellValue.length;
+        }
+      });
+      return { width: maxLength + 5 };
+    }
+  });
+  sheet.columns = columnDefs;
+
+  // 5) Apply borders & center alignment to all cells
+  sheet.eachRow({ includeEmpty: true }, (row) => {
+    row.eachCell({ includeEmpty: true }, (cell) => {
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+    });
+  });
+
+  // 6) Generate & Download the Excel file
+  workbook.xlsx.writeBuffer().then(buffer => {
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${sheetTitle}.xlsx`;
+    link.click();
+  });
+}
 
