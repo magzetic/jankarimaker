@@ -107,3 +107,19 @@ th {
     margin-bottom: 10px;
   }
 }
+table {
+  width: 100%;
+  border-collapse: collapse; /* Ensures borders are merged */
+  margin: 10px; /* Adds margin around the table */
+}
+
+th, td {
+  border: 1px solid #000; /* Adds border to all sides (top, right, bottom, left) */
+  padding: 8px; /* Adds padding inside cells */
+  text-align: center;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+}
