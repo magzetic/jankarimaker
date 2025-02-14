@@ -171,7 +171,7 @@ function generatePDF(sheetTitle) {
   // Wait a short time before capturing to ensure rendering
   setTimeout(() => {
       const opt = {
-          margin: [0,0,0,0],
+          margin: [10, 10, 10, 10], // [top, left, bottom, right] margins in mm
           filename: sheetTitle + '.pdf',
           image: { type: 'jpeg', quality: 0.80 },
           html2canvas: {
